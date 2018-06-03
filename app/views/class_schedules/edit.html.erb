@@ -1,0 +1,6 @@
+<h1>Editing Class Schedule</h1>
+
+<%= render 'form', class_schedule: @class_schedule, parent: @parent %>
+
+<%= link_to 'Show', polymorphic_path([@parent, @class_schedule]) %> |
+<%= link_to 'Back', polymorphic_path([@parent, ClassSchedule]) %>

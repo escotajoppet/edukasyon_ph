@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Students</h1>
+
+<table cellpadding="25">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Classes</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @students.empty? %>
+      <tr>
+        <td align="center" colspan="3">No Students Available.</td>
+      </tr>
+    <% else %>
+      <% @students.each do |student| %>
+        <tr>
+          <td><%= student.name %></td>
+          <td align="center"><%= link_to pluralize(student.class_schedules.size, 'Class'), student_class_schedules_path(student) %></td>
+          <td align="center">
+            <%= link_to student, title: 'Show' do %>
+              <%= fa_icon 'eye' %>
+            <% end %> &nbsp;
+            <%= link_to edit_student_path(student), title: 'Edit' do %>
+              <%= fa_icon 'edit' %>
+            <% end %> &nbsp;
+            <%= link_to student, method: :delete, data: { confirm: 'Are you sure?' }, title: 'Destroy' do %>
+              <%= fa_icon 'trash' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to new_student_path do %>
+  <%= fa_icon 'plus' %> New Student
+<% end %>

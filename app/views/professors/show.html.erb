@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Professor Details<h1>
+
+<h1><%= starred_rating(@professor.ratings, '2x') %></h1>
+
+<table cellpadding="25">
+	<tr>
+		<td align="right">Name:</td>
+		<td><%= @professor.name %></td>
+	</tr>
+
+	<tr>
+		<td align="right">Classes:</td>
+		<td><%= link_to "View #{pluralize(@professor.class_schedules.size, 'Class')}", polymorphic_path([@professor, ClassSchedule]) %></td>
+	</tr>
+
+	<tr>
+		<td align="right">Subjects:</td>
+		<td><%= link_to "View #{pluralize(@professor.subjects.distinct.size, 'Subject')}", polymorphic_path([@professor, Subject]) %></td>
+	</tr>
+
+	<tr>
+		<td align="right">Reviews:</td>
+		<td>
+			<%= link_to "View #{pluralize(@professor.reviews.size, 'Review')}", polymorphic_path([@professor, Review]) %>
+		</td>
+	</tr>
+</table>
+
+<%= link_to 'Edit', edit_professor_path(@professor) %> |
+<%= link_to 'Back', professors_path %>

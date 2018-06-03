@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Reviews</h1>
+
+<table cellpadding="25">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Rating</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @reviews.empty? %>
+      <tr>
+        <td align="center" colspan="4">No Reviews Available.</td>
+      </tr>
+    <% else %>
+      <% @reviews.each do |review| %>
+        <tr>
+          <td><%= review.name %></td>
+          <td align="center"><%= starred_rating(review.rating) %></td>
+          <td><%= review.description %></td>
+          <td align="center">
+            <%= link_to polymorphic_path([@parent, @class_schedule, review]), title: 'Show' do %>
+              <%= fa_icon 'eye' %>
+            <% end %> &nbsp;
+            <%= link_to edit_polymorphic_path([@parent, @class_schedule, review]), title: 'Edit' do %>
+              <%= fa_icon 'edit' %>
+            <% end %> &nbsp;
+            <%= link_to polymorphic_path([@parent, @class_schedule, review]), method: :delete, data: { confirm: 'Are you sure?' }, title: 'Delete' do %>
+              <%= fa_icon 'trash' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to new_polymorphic_path([@parent, @class_schedule, Review]) do %>
+  <%= fa_icon 'plus' %> New Review |
+<% end %>
+
+<%= link_to 'Back', polymorphic_path([@parent, @class_schedule]) %>

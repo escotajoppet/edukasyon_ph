@@ -1,0 +1,37 @@
+<%= form_with(model: [parent, class_schedule, review], url: polymorphic_path([parent, class_schedule, review]), local: true) do |form| %>
+  <% if review.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
+
+      <ul>
+      <% review.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table cellpadding="25">
+    <tr>
+      <td>Name:</td>
+      <td><%= form.text_field :name %></td>
+    </tr>
+
+    <tr>
+      <td>Ratings:</td>
+      <td>
+        <%= form.hidden_field :rating %>
+        <%= starred_rating(review.rating) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Description:</td>
+      <td><%= form.text_area :description %></td>
+    </tr>
+  </table>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

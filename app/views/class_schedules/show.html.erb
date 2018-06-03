@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Class Details</h1>
+
+<h1><%= starred_rating(@class_schedule.ratings, '2x') %></h1>
+
+<table cellpadding="25">
+	<tr>
+		<td align="right">Professor:</td>
+		<td>
+			<%= link_to @class_schedule.professor_name, professor_path(@class_schedule.professor) %>
+		</td>
+		<td>
+			<%= starred_rating(@class_schedule.professor.ratings) %>
+		</td>
+	</tr>
+
+	<tr>
+		<td align="right">Subject:</td>
+		<td><%= link_to @class_schedule.subject.display_subject, subject_path(@class_schedule.subject) %></td>
+		<td>
+			<%= starred_rating(@class_schedule.subject.ratings) %>
+		</td>
+	</tr>
+
+	<tr>
+		<td align="right">Schedule:</td>
+		<td><%= @class_schedule.display_days %> <br> <%= @class_schedule.time_schedule %></td>
+	</tr>
+
+	<tr>
+		<td align="right">Room:</td>
+		<td><%= @class_schedule.room %></td>
+	</tr>
+
+	<tr>
+		<td align="right">Reviews:</td>
+		<td><%= link_to "View #{pluralize(@class_schedule.reviews.size, 'Review')}", polymorphic_path([@parent, @class_schedule, Review]) %></td>
+	</tr>
+</table>
+
+<% if params[:student_id] %>
+	<% if @parent.class_schedules.include?(@class_schedule) %>
+		<%= link_to polymorphic_path([@parent, @class_schedule], action: :drop), method: :delete, data: { confirm: 'Are you sure?' } do %>
+			<%= fa_icon 'unlink 2x' %> Drop out of this class
+		<% end %>
+	<% else %>
+		<%= link_to polymorphic_path([@parent, @class_schedule], action: :enroll), method: :post, data: { confirm: 'Are you sure?' } do %>
+			<%= fa_icon 'plus-square 2x' %> Enroll to this class
+		<% end %>
+	<% end %>
+<% end %>
+
+<%= link_to 'Edit', edit_polymorphic_path([@parent, @class_schedule]) unless params[:student_id] %> |
+<%= link_to 'Back', polymorphic_path([@parent, ClassSchedule]) %>

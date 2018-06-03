@@ -1,0 +1,52 @@
+<%= form_with(model: [parent, class_schedule], url: polymorphic_path([parent, class_schedule]), local: true) do |form| %>
+  <% if class_schedule.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(class_schedule.errors.count, "error") %> prohibited this class_schedule from being saved:</h2>
+
+      <ul>
+      <% class_schedule.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table cellpadding="25">
+    <% unless params[:subject_id] %>
+      <tr>
+        <td>Subject:</td>
+        <td><%= select_tag 'subject_id', options_from_collection_for_select(Subject.all, "id", "display_subject", class_schedule.new_record? ? nil : class_schedule.subject.id), prompt: "Select Subject..." %></td>
+      </tr>
+    <% end %>
+
+    <% unless params[:professor_id] %>
+      <tr>
+        <td>Professor:</td>
+        <td><%= select_tag 'professor_id', options_from_collection_for_select(Professor.all, "id", "name", class_schedule.new_record? ? nil : class_schedule.professor.id), prompt: "Select Instructor..." %></td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td>Time:</td>
+      <td><%= form.text_field :time_schedule %></td>
+    </tr>
+
+    <tr>
+      <td>Days:</td>
+      <td>
+        <% AppHelper.days_index.each do |k, v| %>
+          <%= check_box_tag('class_schedule[days_index][]', k, class_schedule.new_record? ? false : class_schedule.days.include?(k.to_s)) %> <%= v %> <br>
+        <% end %>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Room:</td>
+      <td><%= form.text_field :room %></td>
+    </tr>
+  </table>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

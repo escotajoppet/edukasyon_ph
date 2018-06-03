@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Review Details</h1>
+
+<h1><%= starred_rating(@review.rating, '2x') %></h1>
+
+<table cellpadding="25">
+	<tr>
+		<td align="right">Name:</td>
+		<td><%= @review.name %></td>
+	</tr>
+	<tr>
+		<td align="right">Description:</td>
+		<td><%= @review.description %></td>
+	</tr>
+</table>
+
+<%= link_to 'Edit', edit_polymorphic_path([@parent, @class_schedule, @review]) %> |
+<%= link_to 'Back', polymorphic_path([@parent, @class_schedule, Review]) %>

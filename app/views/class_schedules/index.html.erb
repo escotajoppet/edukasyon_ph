@@ -1,0 +1,83 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Class Schedules</h1>
+
+<table cellpadding="25">
+  <thead>
+    <tr>
+      <% unless params[:subject_id] %>
+        <th>Subject</th>
+      <% end %>
+
+      <% unless params[:professor_id] %>
+        <th>Instructor</th>
+      <% end %>
+
+      <th>Days</th>
+      <th>Time</th>
+      <th>Room</th>
+
+      <th>Ratings</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @class_schedules.empty? %>
+      <tr>
+        <td align="center" colspan="7">No Class Schedules Available.</td>
+      </tr>
+    <% else %>
+      <% @class_schedules.each do |class_schedule| %>
+        <tr>
+          <% unless params[:subject_id] %>
+            <td><%= link_to class_schedule.subject.display_subject, subject_path(class_schedule.subject) %></td>
+          <% end %>
+
+          <% unless params[:professor_id] %>
+            <td><%= link_to class_schedule.professor_name, professor_path(class_schedule.professor) %></td>
+          <% end %>
+          
+          <td align="center"><%= class_schedule.display_days %></td>
+          <td align="center"><%= class_schedule.time_schedule %></td>
+          <td align="center"><%= class_schedule.room %></td>
+          <td align="center"><%= starred_rating(class_schedule.ratings) %></td>
+
+          <td align="center">
+            <% if params[:student_id] %>
+              <% if @parent.class_schedules.include?(class_schedule) %>
+                <%= link_to polymorphic_path([@parent, class_schedule], action: :drop), title: 'Drop out of this class', method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  <%= fa_icon 'unlink' %>
+                <% end %>
+              <% else %>
+                <%= link_to polymorphic_path([@parent, class_schedule], action: :enroll), title: 'Enroll to this class', method: :post, data: { confirm: 'Are you sure?' } do %>
+                  <%= fa_icon 'plus-square' %>
+                <% end %>
+              <% end %>
+              &nbsp;
+            <% end %>
+            <%= link_to polymorphic_path([@parent, class_schedule]), title: 'Show' do %>
+              <%= fa_icon 'eye' %>
+            <% end %> &nbsp;
+            <% unless params[:student_id] %>
+              <%= link_to edit_polymorphic_path([@parent, class_schedule]), title: 'Edit' do %>
+                <%= fa_icon 'edit' %>
+              <% end %> &nbsp;
+              <%= link_to polymorphic_path([@parent, class_schedule]), method: :delete, data: { confirm: 'Are you sure?' }, title: 'Delete' do %>
+                <%= fa_icon 'trash' %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% unless params[:student_id] %>
+  <%= link_to new_polymorphic_path([@parent, ClassSchedule]) do %>
+    <%= fa_icon 'plus' %> New Class Schedule
+  <% end %>
+<% end %>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EdukasyonPh</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'edukasyon_ph' %>
+    <%= stylesheet_link_tag "#{params[:controller]}" %>
+    <%= stylesheet_link_tag "#{params[:controller]}/#{params[:action]}" %>
+  </head>
+
+  <body>
+    <nav>
+      <%= link_to 'Students', students_path %> |
+      <%= link_to 'Professors', professors_path %> |
+      <%= link_to 'Subjects', subjects_path %>
+    </nav>
+
+    <%= yield %>
+
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'edukasyon_ph' %>
+    <%= javascript_include_tag "#{params[:controller]}" %>
+    <%= javascript_include_tag "#{params[:controller]}/#{params[:action]}" %>
+  </body>
+</html>

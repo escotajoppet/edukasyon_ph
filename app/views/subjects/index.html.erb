@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Subjects</h1>
+
+<table cellpadding="25">
+  <thead>
+    <tr>
+      <th>Subject Code</th>
+      <th>Subject Name</th>
+      <th>Ratings</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if @subjects.empty? %>
+      <tr>
+        <td align="center" colspan="3">No Subjects Available.</td>
+      </tr>
+    <% else %>
+      <% @subjects.each do |subject| %>
+        <tr>
+          <td align="center"><%= subject.code %></td>
+          <td><%= subject.name %></td>
+          <td align="center"><%= starred_rating(subject.ratings) %></td>
+          <td align="center">
+            <%= link_to subject, title: 'Show' do %>
+              <%= fa_icon 'eye' %>
+            <% end %> &nbsp;
+            <%= link_to edit_subject_path(subject), title: 'Edit' do %>
+              <%= fa_icon 'edit' %>
+            <% end %> &nbsp;
+            <%= link_to subject, method: :delete, data: { confirm: 'Are you sure?' }, title: 'Delete' do %>
+              <%= fa_icon 'trash' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% unless params[:professor_id] %>
+  <%= link_to new_subject_path do %>
+    <%= fa_icon 'plus' %> New Subject
+  <% end %>
+<% end %>

@@ -1,0 +1,6 @@
+<h1>Editing Review</h1>
+
+<%= render 'form', review: @review, parent: @parent, class_schedule: @class_schedule %>
+
+<%= link_to 'Show', polymorphic_path([@parent, @class_schedule, @review]) %> |
+<%= link_to 'Back', polymorphic_path([@parent, @class_schedule, Review]) %>
